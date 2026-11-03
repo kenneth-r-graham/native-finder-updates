@@ -1,5 +1,13 @@
 {
   "addons": {
-    "native-finder@dev.local": { "updates": [] }
+    "native-finder@dev.local": {
+      "updates": [
+        {
+          "version": "0.3.1",
+          "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.3.1/0c325c4dc8cd4274af2e-0.3.1.xpi",
+          "update_hash": "sha256:ea8652492034979b57db83c5479a38a692b1f97de28387847f946d18ec5dee20"
+        }
+      ]
+    }
   }
 }
