@@ -21,6 +21,11 @@
           "version": "0.4.1",
           "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.4.1/0c325c4dc8cd4274af2e-0.4.1.xpi",
           "update_hash": "sha256:1db52a78c53b229c4b6b8fcc4feeafcfc2e2a23c21c1980633fd27845e365184"
+        },
+        {
+          "version": "0.4.2",
+          "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.4.2/0c325c4dc8cd4274af2e-0.4.2.xpi",
+          "update_hash": "sha256:a6a3a27c6c709e238e08ee6cf9004b6ebcf539aa2dd7418e440a6cd55f1680f6"
         }
       ]
     }
