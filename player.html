@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- Native Finder video player. Hosted on our website (GitHub Pages) because YouTube only plays embeds on pages
+     with a web address, not inside the extension's own pages. Just the YouTube embed: no tracking, no other code
+     loaded. Usage: player.html?v=<video id>&lang=ko[&t=<start seconds>] -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Native Finder player</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; }
+  iframe { border: 0; width: 100%; height: 100%; display: block; }
+  p { color: #ccc; font: 14px system-ui, sans-serif; padding: 16px; }
+</style>
+</head>
+<body>
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get('v') ?? '';
+  const lang = (params.get('lang') ?? 'ko').replace(/[^a-z-]/gi, '');
+  const start = Math.max(0, parseInt(params.get('t') ?? '0', 10) || 0);
+  if (/^[\w-]{11}$/.test(id)) {
+    const f = document.createElement('iframe');
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    // Captions on, in the language being learned.
+    f.src = `https://www.youtube.com/embed/${id}?autoplay=1&cc_load_policy=1&cc_lang_pref=${lang}&hl=${lang}&rel=0&start=${start}`;
+    document.body.append(f);
+  } else {
+    document.body.innerHTML = '<p>No video.</p>';
+  }
+</script>
+</body>
+</html>
