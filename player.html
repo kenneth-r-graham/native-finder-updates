@@ -1,7 +1,9 @@
 <!doctype html>
 <!-- Native Finder video player. Hosted on our website (GitHub Pages) because YouTube only plays embeds on pages
-     with a web address, not inside the extension's own pages. Just the YouTube embed: no tracking, no other code
-     loaded. Usage: player.html?v=<video id>&lang=ko[&t=<start seconds>] -->
+     with a web address, not inside the extension's own pages. The YouTube embed and YouTube's player API only: no
+     tracking, no other code. It tells the page it's shown in (the Native Finder app) whether the video is playing and
+     where it is, for the time watched today and "resume where you left off" (postMessage: { nf: 'player', id, state,
+     t }). Usage: player.html?v=<video id>&lang=ko[&t=<start seconds>] -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -22,12 +24,39 @@
   const start = Math.max(0, parseInt(params.get('t') ?? '0', 10) || 0);
   if (/^[\w-]{11}$/.test(id)) {
     const f = document.createElement('iframe');
+    f.id = 'yt';
     f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     f.allowFullscreen = true;
     f.referrerPolicy = 'strict-origin-when-cross-origin';
-    // Captions on, in the language being learned.
-    f.src = `https://www.youtube.com/embed/${id}?autoplay=1&cc_load_policy=1&cc_lang_pref=${lang}&hl=${lang}&rel=0&start=${start}`;
+    // Captions on, in the language being learned; the player API on, for this page only (origin).
+    f.src = `https://www.youtube.com/embed/${id}?autoplay=1&cc_load_policy=1&cc_lang_pref=${lang}&hl=${lang}&rel=0&start=${start}`
+      + `&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
     document.body.append(f);
+
+    // Playing / paused and the time, to the app page around this one (only while it's shown inside one).
+    if (window.parent !== window) {
+      let player = null;
+      const tell = (state) => {
+        let t = null;
+        try { t = player?.getCurrentTime?.() ?? null; } catch { /* not ready */ }
+        window.parent.postMessage({ nf: 'player', id, state, t }, '*');
+      };
+      window.onYouTubeIframeAPIReady = () => {
+        player = new YT.Player('yt', {
+          events: {
+            onStateChange: (e) => tell(e.data === YT.PlayerState.PLAYING ? 'playing' : e.data === YT.PlayerState.ENDED ? 'ended' : 'paused'),
+          },
+        });
+        // The time now and then while playing (resume point), and a heartbeat for the time watched.
+        setInterval(() => {
+          try { if (player?.getPlayerState?.() === YT.PlayerState.PLAYING) tell('playing'); } catch { /* not ready */ }
+        }, 5000);
+      };
+      const api = document.createElement('script');
+      api.src = 'https://www.youtube.com/iframe_api';
+      document.head.append(api);
+      addEventListener('pagehide', () => tell('paused'));
+    }
   } else {
     document.body.innerHTML = '<p>No video.</p>';
   }
