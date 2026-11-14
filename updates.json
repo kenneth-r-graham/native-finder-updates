@@ -3,11 +3,6 @@
     "native-finder@dev.local": {
       "updates": [
         {
-          "version": "0.18.19",
-          "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.18.19/0c325c4dc8cd4274af2e-0.18.19.xpi",
-          "update_hash": "sha256:878464816b77f7085867f3a133ba707b31970a1f3350d2bcba35cf586341203b"
-        },
-        {
           "version": "0.18.20",
           "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.18.20/0c325c4dc8cd4274af2e-0.18.20.xpi",
           "update_hash": "sha256:472386251b82ed7dd98c3ccd8c1ef35735193b000f656740901d1ad8fb40bef9"
@@ -51,6 +46,11 @@
           "version": "0.18.29",
           "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.18.29/0c325c4dc8cd4274af2e-0.18.29.xpi",
           "update_hash": "sha256:7db80bdb32416931f7f13a189f6ff2980148626777a20bfe208b9f27fcfd41f7"
+        },
+        {
+          "version": "0.18.30",
+          "update_link": "https://github.com/kenneth-r-graham/native-finder-updates/releases/download/v0.18.30/0c325c4dc8cd4274af2e-0.18.30.xpi",
+          "update_hash": "sha256:ee23e817fe4839b9843ec8bbb82f018de57104d0aa024436a209427f64603b2e"
         }
       ]
     }
